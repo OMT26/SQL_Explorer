@@ -27,14 +27,14 @@ SQL Explorer is a tool designed to simplify the process of generating Python cla
 
 ### Using install.py
 
-1. Clone the repository: `git clone https://github.com/yourusername/sql-explorer.git`
-2. Navigate to the project directory: `cd sql-explorer`
+1. Clone the repository: `git clone https://github.com/OMT26/SQL_Explorer.git`
+2. Navigate to the project directory: `cd SQL_Explorer`
 3. Run the installation script: `python install.py`
 
 ### Using requirements.txt
 
-1. Clone the repository: `git clone https://github.com/yourusername/sql-explorer.git`
-2. Navigate to the project directory: `cd sql-explorer`
+1. Clone the repository: `git clone https://github.com/OMT26/SQL_Explorer.git`
+2. Navigate to the project directory: `cd SQL_Explorer`
 3. Install the required dependencies: `pip install -r requirements.txt`
 
 ## Usage
