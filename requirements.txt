@@ -1,5 +1,2 @@
 mysql-connector-python
-python-dateutil
-numpy
-numba
 python-dotenv
