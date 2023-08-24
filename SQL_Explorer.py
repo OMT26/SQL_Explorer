@@ -24,15 +24,39 @@ def get_sql(table,condition = None):
 DB = get_sql('COLUMNS')
 
 database = {}
+info_database = {}
 
 for base in DB:
     if (base[1] in database) == False:
         database[base[1]] = {}  
+    if (base[1] in info_database) == False:
+        info_database[base[1]] = {}  
     if (base[2] in database[base[1]]) == False:
         database[base[1]][base[2]] = []
-    database[base[1]][base[2]].append(base[3])  
+    database[base[1]][base[2]].append(base[3])
+    if base[16] == 'PRI' and base[17] == 'auto_increment':
+        if ('primary_key' in info_database[base[1]]) == False:
+            info_database[base[1]]['table_base_primary_key'] = {}
+        if ('primary_key' in info_database[base[1]]) == False:
+            info_database[base[1]]['primary_key'] = {}
+        if ('keys' in info_database[base[1]]) == False:
+            info_database[base[1]]['keys'] = []
+        info_database[base[1]]['primary_key'][base[2]] = base[3]
+        primary_key_link_name = base[2]
+        primary_key_link_name = primary_key_link_name[0:(len(primary_key_link_name)-1)]
+        info_database[base[1]]['keys'].append(f"{primary_key_link_name}_{base[3]}")
+        info_database[base[1]]['table_base_primary_key'][f"{primary_key_link_name}_{base[3]}"] = base[2]
+        
     
 for db in database:
+    print(info_database[db])
+    table = {}
+    for table in database[db]:
+        #print(database[db][table])
+        for column in database[db][table]:
+            if column == 'id':
+                break
+                print(table[0:(len(table)-1)]+'_id')
     print(db)
     i = input("Continue? y | n \n")
     if i != 'n' and i != 'N':
@@ -50,6 +74,8 @@ for db in database:
             script += "    def __init__(self,"
             i = 1
             for columns in database[db][table]:
+                if (columns in info_database[db]['keys']):
+                    print(columns,table)
                 if(i != len(database[db][table])):
                     script += columns+","
                 else:    
