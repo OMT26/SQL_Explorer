@@ -85,7 +85,8 @@ for db in database:
     print(db)
     i = input("Continue? y | n \n")
     if i != 'n' and i != 'N':
-        script = 'import mysql.connector as MC\n\n'
+        script = 'import mysql.connector as MC\n'
+        script += 'import json\n\n'
         script += 'HOST = "'+HOST+'"\n'
         script += 'USER = "'+USER+'"\n'
         script += 'PASSWORD = "'+PASSWORD+'"\n'
@@ -285,6 +286,20 @@ for db in database:
             script += "        '"+table+"' : "+table.capitalize()+",\n"
         script += "    }\n"
         script += "    return obj\n"
+        script += "def extract_to_json(name):\n"
+        script += "    \"\"\"Exctract all data in database into a .json file\"\"\"\n"
+        script += "    database = exctract_all()\n"
+        script += "    for table in database:\n"
+        script += "        i = 0\n"
+        script += "        for line in database[table]:\n"
+        script += "            for columns in line:\n"
+        script += "                if str(type(line[columns])) == \"<class 'datetime.datetime'>\":\n"
+        script += "                    database[table][i][columns] = str(database[table][i][columns])\n"
+        script += "            i+=1\n"
+        script += "    json_exctract = json.dumps(database)\n"
+        script += "    file = open(f\"{"+"name"+"}.json\",'w')\n"
+        script += "    file.write(json_exctract)\n"
+        script += "    file.close()\n"
         i = input("Do you want save the script 'SQL_"+db+".py' ? y | n ")
         if i != 'n' and i != 'N':
             f = open("SQL_"+db+".py", "w")
