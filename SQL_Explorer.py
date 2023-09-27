@@ -24,14 +24,18 @@ def get_sql(table,condition = None):
 DB = get_sql('COLUMNS')
 
 database = {}
+ordinal_pos = {}
 
 for base in DB:
     if (base[1] in database) == False:
         database[base[1]] = {}  
+        ordinal_pos[base[1]] = {}
     if (base[2] in database[base[1]]) == False:
         database[base[1]][base[2]] = []
-    database[base[1]][base[2]].append(base[3])  
-    
+        ordinal_pos[base[1]][base[2]] = []
+    database[base[1]][base[2]].append(base[3]) 
+    ordinal_pos[base[1]][base[2]].append(base[4])
+
 for db in database:
     print(db)
     i = input("Continue? y | n \n")
@@ -135,9 +139,9 @@ for db in database:
             i = 1
             for columns in database[db][table]:
                 if(i != len(database[db][table])):
-                    script += "p["+str(i-1)+"],"
+                    script += "p["+str(int(ordinal_pos[db][table][i-1])-1)+"],"
                 else:    
-                    script += "p["+str(i-1)+"]"
+                    script += "p["+str(int(ordinal_pos[db][table][i-1])-1)+"]"
                 i += 1  
             script += ")\n"
             script += "        object_list.append(object)\n"
