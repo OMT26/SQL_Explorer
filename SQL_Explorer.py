@@ -275,8 +275,8 @@ for db in database:
             script += ")\n"
             script += "        object_list.append(object)\n"
             script += "    return object_list\n\n"
-        script += "def exctract_all() -> dict:\n"
-        script += "    \"\"\"Exctract all data in database into a dictionary\"\"\"\n"
+        script += "def extract_all() -> dict:\n"
+        script += "    \"\"\"Extract all data in database into a dictionary\"\"\"\n"
         for table in database[db]:  
             script += "    "+table.capitalize()+" = []\n"
             script += "    for "+table+" in get_"+table+"():\n"
@@ -285,9 +285,9 @@ for db in database:
         for table in database[db]:  
             script += "        '"+table+"' : "+table.capitalize()+",\n"
         script += "    }\n"
-        script += "    return obj\n"
+        script += "    return obj\n\n"
         script += "def extract_to_json(name):\n"
-        script += "    \"\"\"Exctract all data in database into a .json file\"\"\"\n"
+        script += "    \"\"\"Extract all data in database into a .json file\"\"\"\n"
         script += "    database = exctract_all()\n"
         script += "    for table in database:\n"
         script += "        i = 0\n"
