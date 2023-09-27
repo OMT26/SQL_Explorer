@@ -259,8 +259,8 @@ for db in database:
         script += "    return  cursor.fetchall()\n\n"
         
         for table in database[db]:    
-            script += "def get_"+table+"(condition = None) -> list:\n"
-            script += "    \"\"\"Does a get on the database, return one or more "+table.capitalize()+" objects in a list\"\"\"\n"
+            script += "def get_"+table+"(condition = None, first = False):\n"
+            script += "    \"\"\"Does a get on the database, return one or more "+table.capitalize()+" objects in a list. If first is true, return a single object, the first object answered after the query.\"\"\"\n"
             script += "    response = get_sql('"+table+"',condition)\n"
             script += "    object_list = []\n"
             script += "    for p in response:\n"
@@ -274,6 +274,7 @@ for db in database:
                 i += 1  
             script += ")\n"
             script += "        object_list.append(object)\n"
+            script += "    if first: return object_list[0] if len(object_list) != 0 else None\n"
             script += "    return object_list\n\n"
         script += "def extract_all() -> dict:\n"
         script += "    \"\"\"Extract all data in database into a dictionary\"\"\"\n"
