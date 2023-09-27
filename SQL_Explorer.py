@@ -259,6 +259,7 @@ for db in database:
         
         for table in database[db]:    
             script += "def get_"+table+"(condition = None) -> list:\n"
+            script += "    \"\"\"Does a get on the database, return one or more "+table.capitalize()+" objects in a list\"\"\"\n"
             script += "    response = get_sql('"+table+"',condition)\n"
             script += "    object_list = []\n"
             script += "    for p in response:\n"
@@ -273,6 +274,17 @@ for db in database:
             script += ")\n"
             script += "        object_list.append(object)\n"
             script += "    return object_list\n\n"
+        script += "def exctract_all() -> dict:\n"
+        script += "    \"\"\"Exctract all data in database into a dictionary\"\"\"\n"
+        for table in database[db]:  
+            script += "    "+table.capitalize()+" = []\n"
+            script += "    for "+table+" in get_"+table+"():\n"
+            script += "        "+table.capitalize()+".append("+table+".to_dict())\n"
+        script += "    obj = {\n"
+        for table in database[db]:  
+            script += "        '"+table+"' : "+table.capitalize()+",\n"
+        script += "    }\n"
+        script += "    return obj\n"
         i = input("Do you want save the script 'SQL_"+db+".py' ? y | n ")
         if i != 'n' and i != 'N':
             f = open("SQL_"+db+".py", "w")
